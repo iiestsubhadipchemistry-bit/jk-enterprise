@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>DIGITAL SERVICE SEVA</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
+    }
+
+    body{
+
+      background:#f4f4f4;
+
+      padding:20px;
+
+      position:relative;
+
+    }
+
+    .logout-btn{
+
+      position:absolute;
+
+      top:20px;
+
+      right:20px;
+
+      background:#C62828;
+
+      color:white;
+
+      border:none;
+
+      padding:10px 18px;
+
+      border-radius:8px;
+
+      cursor:pointer;
+
+      font-size:14px;
+
+    }
+
+    .logout-btn:hover{
+
+      background:#8E0000;
+
+    }
+
+    .container{
+
+      width:550px;
+
+      margin:40px auto;
+
+    }
+
+    .search-box{
+
+      background:white;
+
+      padding:25px;
+
+      border-radius:12px;
+
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+
+      text-align:center;
+
+    }
+
+    .title{
+
+      font-size:30px;
+
+      font-weight:bold;
+
+      color:#1565C0;
+
+    }
+
+    .subtitle{
+
+      margin-top:8px;
+
+      color:#777;
+
+    }
+
+    input{
+
+      width:85%;
+
+      padding:14px;
+
+      margin-top:20px;
+
+      border:1px solid #ccc;
+
+      border-radius:8px;
+
+      font-size:16px;
+
+    }
+
+    .not-found{
+
+      display:none;
+
+      margin-top:15px;
+
+      color:#C62828;
+
+      font-size:15px;
+
+      font-weight:600;
+
+    }
+
+    .invoice{
+
+      position:relative;
+
+      display:none;
+
+      background:white;
+
+      margin-top:25px;
+
+      padding:25px;
+
+      border-radius:12px;
+
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+
+      overflow:hidden;
+
+    }
+
+    .watermark{
+
+      position:absolute;
+
+      top:45%;
+
+      left:50%;
+
+      transform:
+      translate(-50%, -50%)
+      rotate(-30deg);
+
+      font-size:45px;
+
+      color:rgba(0,0,0,0.07);
+
+      font-weight:bold;
+
+      text-align:center;
+
+      pointer-events:none;
+
+      z-index:0;
+
+      width:100%;
+
+    }
+
+    .header{
+
+      background:#1565C0;
+
+      color:white;
+
+      padding:20px;
+
+      text-align:center;
+
+      border-radius:12px;
+
+      position:relative;
+
+      z-index:1;
+
+    }
+
+    .company-name{
+
+      font-size:24px;
+
+      font-weight:bold;
+
+    }
+
+    .owner{
+
+      margin-top:6px;
+
+      font-size:16px;
+
+    }
+
+    .address{
+
+      margin-top:4px;
+
+      font-size:13px;
+
+    }
+
+    .invoice-title{
+
+      text-align:center;
+
+      margin-top:20px;
+
+      font-size:24px;
+
+      color:#1565C0;
+
+      font-weight:bold;
+
+      position:relative;
+
+      z-index:1;
+
+    }
+
+    table{
+
+      width:100%;
+
+      margin-top:20px;
+
+      border-collapse:collapse;
+
+      position:relative;
+
+      z-index:1;
+
+    }
+
+    td{
+
+      padding:12px;
+
+      border-bottom:1px solid #ddd;
+
+      font-size:14px;
+
+      vertical-align:top;
+
+    }
+
+    .label{
+
+      font-weight:bold;
+
+      width:42%;
+
+      background:#f8f8f8;
+
+    }
+
+    .amount-box{
+
+      margin-top:25px;
+
+      background:#43A047;
+
+      color:white;
+
+      text-align:center;
+
+      padding:20px;
+
+      border-radius:10px;
+
+      position:relative;
+
+      z-index:1;
+
+    }
+
+    .amount{
+
+      font-size:34px;
+
+      font-weight:bold;
+
+    }
+
+    .status{
+
+      margin-top:6px;
+
+      font-size:16px;
+
+    }
+
+    .footer{
+
+      margin-top:40px;
+
+      text-align:right;
+
+      position:relative;
+
+      z-index:1;
+
+      font-size:14px;
+
+    }
+
+    .download-btn{
+
+      width:100%;
+
+      margin-top:20px;
+
+      padding:14px;
+
+      background:#1565C0;
+
+      color:white;
+
+      border:none;
+
+      border-radius:8px;
+
+      font-size:16px;
+
+      cursor:pointer;
+
+      position:relative;
+
+      z-index:1;
+
+    }
+
+    .download-btn:hover{
+
+      background:#0D47A1;
+
+    }
+
+    .paid-box{
+
+      position:absolute;
+
+      bottom:15px;
+
+      right:15px;
+
+      background:#C62828;
+
+      color:white;
+
+      padding:8px 18px;
+
+      border-radius:6px;
+
+      font-size:20px;
+
+      font-weight:900;
+
+      letter-spacing:2px;
+
+      text-transform:uppercase;
+
+      z-index:5;
+
+      box-shadow:0 0 8px rgba(0,0,0,0.3);
+
+      border:2px solid white;
+
+    }
+
+    .account-box{
+
+      white-space:pre-line;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<button class="logout-btn" onclick="logout()">
+Logout
+</button>
+
+<div class="container">
+
+  <div class="search-box">
+
+    <div class="title">
+      DIGITAL SERVICE SEVA
+    </div>
+
+    <div class="subtitle">
+      Search Payment Slip
+    </div>
+
+    <input
+      type="text"
+      id="searchValue"
+      placeholder="Enter Mobile Number or Name"
+      onkeyup="searchSlip()"
+    >
+
+    <div id="notFound" class="not-found">
+
+      ❌ No payment record found
+
+    </div>
+
+  </div>
+
+  <div class="invoice" id="invoice">
+
+    <div class="watermark">
+
+      PAYMENT SUCCESSFUL
+
+      <br><br>
+
+      Soumen Khanra
+
+    </div>
+
+    <div class="header">
+
+      <div class="company-name">
+        DIGITAL SERVICE SEVA
+      </div>
+
+      <div class="owner">
+        From Soumen Khanra
+      </div>
+
+      <div class="address">
+        West Bengal, India
+      </div>
+
+    </div>
+
+    <div class="invoice-title">
+      PAYMENT RECEIPT
+    </div>
+
+    <table>
+
+      <tr>
+        <td class="label">Name</td>
+        <td id="labourName"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Mobile Number</td>
+        <td id="mobile"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Payment Type</td>
+        <td id="paymentType"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Payment Status</td>
+        <td id="paymentStatus"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Payment Date</td>
+        <td id="paymentDate"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Transaction Number</td>
+        <td id="transactionNo"></td>
+      </tr>
+
+      <tr>
+        <td class="label">Account Details</td>
+        <td
+          id="accountDetails"
+          class="account-box"
+        ></td>
+      </tr>
+
+    </table>
+
+    <div class="amount-box">
+
+      <div class="amount">
+        ₹<span id="amount"></span>
+      </div>
+
+      <div class="status">
+        PAYMENT SUCCESSFUL
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Authorized Signature
+    </div>
+
+    <button
+      class="download-btn"
+      onclick="downloadPDF()"
+    >
+      Download PDF
+    </button>
+
+    <div class="paid-box">
+      PAID
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let allData = [];
+
+fetch(
+"https://script.google.com/macros/s/AKfycbzDyq0QBwIuHAn8RF8RwlYHhTQUx22_uS3dkGlBHZ4om8VE8G11EDgTuZeoV2IxUWycZQ/exec?action=labourPayments"
+)
+
+.then(response => response.json())
+
+.then(data => {
+
+  console.log(data);
+
+  allData = data;
+
+})
+
+.catch(error => {
+
+  console.log(error);
+
+  alert("Unable to load Google Sheet data.");
+
+});
+
+function searchSlip(){
+
+  var search =
+    document.getElementById("searchValue")
+    .value
+    .toLowerCase()
+    .trim();
+
+  if(search == ""){
+
+    document.getElementById("invoice")
+      .style.display = "none";
+
+    document.getElementById("notFound")
+      .style.display = "none";
+
+    return;
+
+  }
+
+  var found = allData.find(item => {
+
+    var mobile =
+      item.mobile
+      ? item.mobile.toString().toLowerCase()
+      : "";
+
+    var name =
+      item.labourName
+      ? item.labourName.toLowerCase()
+      : "";
+
+    return mobile.includes(search) ||
+           name.includes(search);
+
+  });
+
+  if(found){
+
+    document.getElementById("notFound")
+      .style.display = "none";
+
+    document.getElementById("invoice")
+      .style.display = "block";
+
+    document.getElementById("labourName")
+      .innerHTML = found.labourName || "";
+
+    document.getElementById("mobile")
+      .innerHTML = found.mobile || "";
+
+    document.getElementById("paymentType")
+      .innerHTML = found.paymentType || "";
+
+    document.getElementById("paymentStatus")
+      .innerHTML = found.status || "";
+
+    document.getElementById("paymentDate")
+      .innerHTML = found.date || "";
+
+    document.getElementById("transactionNo")
+      .innerHTML = found.transactionNo || "";
+
+    document.getElementById("accountDetails")
+      .innerHTML = found.accountDetails || "";
+
+    document.getElementById("amount")
+      .innerHTML = found.amount || "";
+
+  }
+  else{
+
+    document.getElementById("invoice")
+      .style.display = "none";
+
+    document.getElementById("notFound")
+      .style.display = "block";
+
+  }
+
+}
+
+function downloadPDF(){
+
+  var element =
+    document.getElementById("invoice");
+
+  var options = {
+
+    margin:0.2,
+
+    filename:'Payment_Receipt.pdf',
+
+    image:{
+      type:'jpeg',
+      quality:1
+    },
+
+    html2canvas:{
+      scale:2
+    },
+
+    jsPDF:{
+      unit:'mm',
+      format:[148,210],
+      orientation:'portrait'
+    }
+
+  };
+
+  html2pdf()
+    .set(options)
+    .from(element)
+    .save();
+
+}
+
+function logout(){
+
+  localStorage.clear();
+
+  alert("Logged Out Successfully");
+
+  window.location.href =
+  "login.html";
+
+}
+
+</script>
+
+</body>
+</html>

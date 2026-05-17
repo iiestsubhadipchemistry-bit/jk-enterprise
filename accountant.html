@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Labour Payment</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Labour Payment Entry</h2>
+
+<input
+type="text"
+id="labourName"
+placeholder="Labour Name"
+>
+
+<input
+type="text"
+id="mobile"
+placeholder="Mobile Number"
+>
+
+<input
+type="number"
+id="amount"
+placeholder="Amount"
+>
+
+<select id="paymentType">
+
+<option>UPI</option>
+<option>Bank Transfer</option>
+<option>Cash</option>
+
+</select>
+
+<input
+type="text"
+id="transactionNo"
+placeholder="Transaction Number"
+>
+
+<input
+type="date"
+id="date"
+>
+
+<button onclick="saveLabourPayment()">
+Pay Labour
+</button>
+
+</div>
+
+<script>
+
+const API =
+"https://script.google.com/macros/s/AKfycbzDyq0QBwIuHAn8RF8RwlYHhTQUx22_uS3dkGlBHZ4om8VE8G11EDgTuZeoV2IxUWycZQ/exec";
+
+function saveLabourPayment(){
+
+  fetch(API,{
+
+    method:"POST",
+
+    body:JSON.stringify({
+
+      type:"labourPayment",
+
+      labourName:
+      document.getElementById("labourName").value,
+
+      mobile:
+      document.getElementById("mobile").value,
+
+      amount:
+      document.getElementById("amount").value,
+
+      paymentType:
+      document.getElementById("paymentType").value,
+
+      transactionNo:
+      document.getElementById("transactionNo").value,
+
+      date:
+      document.getElementById("date").value,
+
+      status:"Paid"
+
+    })
+
+  })
+
+  .then(res=>res.text())
+
+  .then(data=>{
+
+    alert("Labour Payment Saved");
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>

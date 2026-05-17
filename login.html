@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Labour Payment System</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
+    }
+
+    body{
+
+      height:100vh;
+
+      display:flex;
+
+      justify-content:center;
+
+      align-items:center;
+
+      background:linear-gradient(
+        135deg,
+        #1565C0,
+        #42A5F5
+      );
+
+    }
+
+    .login-box{
+
+      width:380px;
+
+      background:white;
+
+      padding:35px;
+
+      border-radius:15px;
+
+      box-shadow:0 0 20px rgba(0,0,0,0.2);
+
+      animation:fadeIn 0.5s ease;
+
+    }
+
+    @keyframes fadeIn{
+
+      from{
+        transform:translateY(20px);
+        opacity:0;
+      }
+
+      to{
+        transform:translateY(0);
+        opacity:1;
+      }
+
+    }
+
+    .title{
+
+      text-align:center;
+
+      font-size:28px;
+
+      font-weight:bold;
+
+      color:#1565C0;
+
+    }
+
+    .subtitle{
+
+      text-align:center;
+
+      margin-top:8px;
+
+      color:#777;
+
+      font-size:14px;
+
+    }
+
+    input{
+
+      width:100%;
+
+      padding:14px;
+
+      margin-top:18px;
+
+      border:1px solid #ccc;
+
+      border-radius:8px;
+
+      font-size:15px;
+
+    }
+
+    input:focus{
+
+      outline:none;
+
+      border-color:#1565C0;
+
+    }
+
+    button{
+
+      width:100%;
+
+      padding:14px;
+
+      margin-top:20px;
+
+      border:none;
+
+      border-radius:8px;
+
+      background:#1565C0;
+
+      color:white;
+
+      font-size:16px;
+
+      cursor:pointer;
+
+      transition:0.3s;
+
+    }
+
+    button:hover{
+
+      background:#0D47A1;
+
+    }
+
+    .message{
+
+      margin-top:15px;
+
+      text-align:center;
+
+      font-size:14px;
+
+      font-weight:bold;
+
+    }
+
+    .success{
+      color:green;
+    }
+
+    .error{
+      color:red;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+  <div class="title">
+    DIGITAL SERVICE SEVA
+  </div>
+
+  <div class="subtitle">
+    Company & Accountant Login
+  </div>
+
+  <input
+    type="text"
+    id="username"
+    placeholder="Enter Username"
+  >
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Enter Password"
+  >
+
+  <button onclick="login()">
+    Login
+  </button>
+
+  <div id="message" class="message"></div>
+
+</div>
+
+<script>
+
+const API =
+"https://script.google.com/macros/s/AKfycbzDyq0QBwIuHAn8RF8RwlYHhTQUx22_uS3dkGlBHZ4om8VE8G11EDgTuZeoV2IxUWycZQ/exec";
+
+function login(){
+
+  let username =
+    document.getElementById("username").value;
+
+  let password =
+    document.getElementById("password").value;
+
+  let message =
+    document.getElementById("message");
+
+  fetch(API + "?action=users")
+
+  .then(res=>res.json())
+
+  .then(users=>{
+
+    let found = users.find(user =>
+
+      user.username == username &&
+      user.password == password
+
+    );
+
+    if(found){
+
+      message.innerHTML =
+      "✅ Login Successful";
+
+      message.className =
+      "message success";
+
+      localStorage.setItem(
+        "company",
+        found.company
+      );
+
+      localStorage.setItem(
+        "role",
+        found.role
+      );
+
+      setTimeout(()=>{
+
+        if(found.role=="company"){
+
+          window.location.href =
+          "company.html";
+
+        }
+
+        if(found.role=="accountant"){
+
+          window.location.href =
+          "accountant.html";
+
+        }
+
+      },1000);
+
+    }
+    else{
+
+      message.innerHTML =
+      "❌ Invalid Username or Password";
+
+      message.className =
+      "message error";
+
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
